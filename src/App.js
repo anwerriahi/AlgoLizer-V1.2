@@ -22,10 +22,14 @@ export default function App() {
     setSpeed(1000 - Number(e.target.value));
   }
 
-  const swapItems = (oldValue) => {
+  const swapItems = (oldValue, slectedItem) => {
     setItemsList(
       itemsList.map((item, index) =>
-        index === 0 ? itemsList[minItem] : index === minItem ? oldValue : item
+        index === slectedItem
+          ? itemsList[minItem]
+          : index === minItem
+          ? oldValue
+          : item
       )
     );
     console.log("swap called!\n " + itemsList);
@@ -60,27 +64,38 @@ function Main({
   playPause,
   swapItems,
 }) {
-  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [startLoopIndex, setStartLoopIndex] = useState(0); //  state variable to track the starting index of the loop
+  const [selectedItemIndex, setSelectedItemIndex] = useState(startLoopIndex);
 
   // Start the interval when the component renders
   useEffect(() => {
     const updateValue = () => {
       setSelectedItemIndex((prevIndex) => {
-        let currentIndex = (prevIndex + 1) % itemsList.length;
+        let currentIndex = (startLoopIndex + prevIndex + 1) % itemsList.length;
+        // Check if we have completed a full loop
+        if (currentIndex === startLoopIndex) {
+          // Update the starting index for the next loop
+          setStartLoopIndex(currentIndex);
+        }
         let old = itemsList[currentIndex];
-        console.log("minIndexItem: " + minItem);
+
+        console.log("current Index: " + currentIndex);
 
         if (itemsList[currentIndex] < itemsList[minItem]) {
           changeMinItem(currentIndex);
         }
 
-        selectedItemIndex === itemsList.length - 1 && swapItems(old);
+        selectedItemIndex === itemsList.length - 1 &&
+          swapItems(old, startLoopIndex);
         selectedItemIndex === 0 && changeMinItem(0);
-        console.log(itemsList);
+
         return currentIndex;
       });
     };
-    const intervalId = playPause && setInterval(updateValue, speed);
+    const intervalId =
+      playPause &&
+      startLoopIndex < itemsList.length &&
+      setInterval(updateValue, speed);
 
     return () => clearInterval(intervalId); // Clear the interval on component unmount
   }, [
