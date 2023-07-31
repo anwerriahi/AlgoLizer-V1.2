@@ -1,5 +1,5 @@
 import React from "react";
 
 export function Header() {
-  return <header>Sort Section</header>;
+  return <header>Selection Sort</header>;
 }

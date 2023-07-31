@@ -3,7 +3,7 @@ import "./index.css";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 
-const initialItemsList = [90, 101, 4, 200, 3, 0, 18, 2, 6];
+const initialItemsList = [90, 101, 4, 200, 3, 18, 2, 100, 1, 10, 6, 0, 11];
 
 export default function App() {
   const [itemsList, setItemsList] = useState(initialItemsList);
@@ -72,11 +72,9 @@ function Main({
     const updateValue = () => {
       setSelectedItemIndex((prevIndex) => {
         let currentIndex = (startLoopIndex + prevIndex + 1) % itemsList.length;
-        // Check if we have completed a full loop
-        if (currentIndex === startLoopIndex) {
-          // Update the starting index for the next loop
-          setStartLoopIndex(currentIndex);
-        }
+        console.log("previous: " + prevIndex);
+
+        console.log("start loop: " + startLoopIndex);
         let old = itemsList[currentIndex];
 
         console.log("current Index: " + currentIndex);
@@ -106,6 +104,7 @@ function Main({
     changeMinItem,
     selectedItemIndex,
     swapItems,
+    startLoopIndex,
   ]);
 
   return (

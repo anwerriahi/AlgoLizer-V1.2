@@ -27,7 +27,7 @@ export function Footer({ handleSpeed, speed, handlePlay, playPause }) {
         Development in progress...
       </span>
       <button className="sort" onClick={handlePlay}>
-        {playPause ? "Stop Sorting" : "Sort"}
+        {playPause ? "Stop Sorting ⏹️" : "Sort ▶️"}
       </button>
     </footer>
   );
