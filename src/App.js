@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -64,7 +64,7 @@ function Main({
   playPause,
   swapItems,
 }) {
-  const [startLoopIndex, setStartLoopIndex] = useState(0); //  state variable to track the starting index of the loop
+  const [startLoopIndex] = useState(0); //  state variable to track the starting index of the loop
   const [selectedItemIndex, setSelectedItemIndex] = useState(startLoopIndex);
 
   // Start the interval when the component renders
