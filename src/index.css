@@ -45,14 +45,32 @@ main {
   border-radius: 10px;
 }
 .grid-item {
-  transform: all 2s;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   border: 2px solid #cfcc;
   box-sizing: border-box;
   height: 7rem;
   width: 7rem;
-  line-height: 7rem;
   border-radius: 10px;
 }
+.index {
+  font-size: 11px;
+  color: green;
+  font-weight: bold;
+}
+
+.unsorted {
+  color: var(--shadow2);
+  width: fit-content;
+  padding: 5px;
+  background-color: bisque;
+  border-radius: 5px;
+  border: 2px var(--shadow2) solid;
+  font-size: 15px;
+  font-weight: 600;
+}
+
 .normal-grid-item-animation {
   animation: pulseAnimationNormal 0.3s backwards;
 }
@@ -163,33 +181,30 @@ input[type="range"],
   .grid-item {
     height: 3rem;
     width: 3rem;
-    line-height: 3rem;
   }
   header {
     font-size: 22px;
     font-weight: 550;
-    width: 80%;
+    width: 70%;
   }
 }
 @media (min-width: 521px) and (max-width: 1319px) {
   .grid-item {
     height: 3rem;
     width: 3rem;
-    line-height: 3rem;
   }
   header {
     font-size: 2.5rem;
-    width: 80%;
+    width: 70%;
   }
 }
 @media (min-width: 1319px) {
   .grid-item {
     height: 3.5rem;
     width: 3.5rem;
-    line-height: 3.5rem;
   }
   header {
     font-size: 5rem;
-    width: 80%;
+    width: 70%;
   }
 }

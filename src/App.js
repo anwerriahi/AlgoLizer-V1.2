@@ -3,12 +3,12 @@ import "./index.css";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 
-const initialItemsList = [90, 101, 4, 200, 3, 18, 2, 100, 1, 10, 6, 0, 11];
+const initialItemsList = [90, 101, 4, 200, 3, 18, 2, 100, 1, 10, 6, 11];
 
 export default function App() {
   const [itemsList, setItemsList] = useState(initialItemsList);
   const [speed, setSpeed] = useState(1000);
-  const [minItem, setMinItem] = useState(0);
+  const [minItem, setMinItem] = useState();
   const [playPause, setPlayPause] = useState(false);
 
   function handlePlay() {
@@ -37,7 +37,7 @@ export default function App() {
 
   return (
     <div className="App container">
-      <Header />
+      <Header initialList={initialItemsList} />
       <Main
         itemsList={itemsList}
         speed={speed}
@@ -64,32 +64,45 @@ function Main({
   playPause,
   swapItems,
 }) {
-  const [startLoopIndex] = useState(0); //  state variable to track the starting index of the loop
+  let [startLoopIndex, setStartLoopIndex] = useState(0); //  state variable to track the starting index of the loop
   const [selectedItemIndex, setSelectedItemIndex] = useState(startLoopIndex);
 
   // Start the interval when the component renders
   useEffect(() => {
     const updateValue = () => {
       setSelectedItemIndex((prevIndex) => {
-        let currentIndex = (startLoopIndex + prevIndex + 1) % itemsList.length;
-        console.log("previous: " + prevIndex);
+        let currentIndex = (prevIndex + 1) % itemsList.length;
+        if (currentIndex === itemsList.length) currentIndex = startLoopIndex;
 
+        console.log("previous Index: " + prevIndex);
         console.log("start loop: " + startLoopIndex);
-        let old = itemsList[currentIndex];
-
         console.log("current Index: " + currentIndex);
 
-        if (itemsList[currentIndex] < itemsList[minItem]) {
-          changeMinItem(currentIndex);
-        }
+        // start Swapping
+        {
+          let old = itemsList[currentIndex];
+          if (itemsList[currentIndex] < itemsList[minItem]) {
+            changeMinItem(currentIndex);
+          }
 
-        selectedItemIndex === itemsList.length - 1 &&
-          swapItems(old, startLoopIndex);
-        selectedItemIndex === 0 && changeMinItem(0);
+          selectedItemIndex === itemsList.length - 1 &&
+            swapItems(old, startLoopIndex);
+          selectedItemIndex === 0 && changeMinItem(startLoopIndex);
+        }
+        // end Swapping
+
+        // if (currentIndex === itemsList.length - 1) {
+        //   setStartLoopIndex((s) => s + 1);
+        // }
+
+        // if (currentIndex === itemsList.length) {
+        //   currentIndex = startLoopIndex;
+        // }
 
         return currentIndex;
       });
     };
+
     const intervalId =
       playPause &&
       startLoopIndex < itemsList.length &&
@@ -134,7 +147,8 @@ function Item({ item, index, minItem, selectedItemIndex }) {
       }
       key={index}
     >
-      {item}
+      <span>{item}</span>
+      <span className="index">i = {index}</span>
     </span>
   );
 }
